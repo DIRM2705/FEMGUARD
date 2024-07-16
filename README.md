@@ -33,29 +33,41 @@ Finalmente, deberás instalar los paquetes y dependencias, para ello necesitas d
 pip install -r requirements.txt
 ```
 
-<h2> Backend </h2>
-<h3> Bluetooth </h3>
+<h3> Cliente Bluetooth Low-Energy </h3>
 
-> async get_nearby_devices() -> list[BLEDevice]
+> class BLE()
 
-Busca todos los dispositivos BLE cercanos,selecciona únicamente los que cumplan con lo siguiente:
+Cliente bluetooth low energy de la aplicación.
+- Buscará dispositivos cercanos,
+- Conectará con dispositivos BLE que cumplan las características:
+    - Tienen la UUID de alerta inmediata
+- Se suscribirá a las notificaciones enviadas por el dispositivo de seguridad
 
-- Incluye la UUID para immediate alert (alerta inmediata)
+> property BLE.callback : function(sender: BleakGATTCharacteristic, data: bytearrays)
 
-y crea una lista con ellos.
+La función que se ejecutará cuando la aplicación reciva una alerta inmediata.
+La función puede o no ser asíncrona, no debe retornar nada y debe tener únicamente dos parámetros:
+- `sender` de tipo [BleakGATTCharacteristic](https://bleak.readthedocs.io/en/latest/api/index.html#bleak.backends.characteristic.BleakGATTCharacteristic)
+- `data` que es un arreglo de bytes
 
-**Retorna:** Una lista de objetos [BLEDevice](https://bleak.readthedocs.io/en/latest/api/index.html#bleak.backends.device.BLEDevice).
+> async BLE.get_nearby_devices() → list[str]
+
+Busca todos los dispositivos BLE cercanos,selecciona únicamente los que cumplan con las características preestablecidas y crea una lista con sus nombres
+
+**Retorna:** Una lista que contiene los nombres de los dispositivos cercanos
         
-> async connect_to_device(device : BLEDevice) -> BleakClient
+> async BLE.connect_to_device(device : str)
 
 Conecta la aplicación al dispositivo BLE `device`
 
-**Parámetros:** **device** -  El dispositivo BLE al que se desea conectar (Idealmente el collar).
-
-**Retorna:** Un nuevo cliente bluetooth asociado a los dispositivos conectados.
+**Parámetros:** **device** -  El nombre del dispositivo BLE al que se desea conectar.
     
-> async subscribe_to_alert(client : BleakClient):
+> async BLE.subscribe_to_alert()
 
-Pone la aplicación a esperar en segundo plano que el dispositivo vinculado (collar) produzca alertas inmediatas.
+Pone la aplicación a esperar en segundo plano que el dispositivo vinculado produzca alertas inmediatas.
 
-**Parámetros:** **client** - El cliente bluetooth asociado a los dispositivos conectados
+> async BLE.has_devices() → bool
+
+Revisa si la aplicación ha encontrado algún dispositivo cercano
+
+**Retorna:** Verdadero si hay se ha encontrado al menos un dispositivo
