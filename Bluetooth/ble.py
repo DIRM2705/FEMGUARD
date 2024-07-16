@@ -1,5 +1,6 @@
 from bleak import BleakScanner, BleakClient, BLEDevice, AdvertisementData, BleakGATTCharacteristic
 from bleak.exc import BleakDeviceNotFoundError
+from exceptions import *
 import asyncio
 
 class BLE :
@@ -75,9 +76,9 @@ class BLE :
             self._client = BleakClient(device)
             await self._client.connect()
         except KeyError:
-            print("El nombre del dispositivo no se encontró")
+            raise ConnectionUnsuccessfullException("Nombre del dispositivo incorrecto")
         except BleakDeviceNotFoundError:
-            print("Dispositivo no encotrado")
+            raise ConnectionUnsuccessfullException("Dispositivo no encontrado")
     
     async def connect_to_last_device(self):
         '''
@@ -87,9 +88,9 @@ class BLE :
         try:
             await self._client.connect()
         except AttributeError:
-            print("El cliente no está vinculado")
+            raise ConnectionUnsuccessfullException("El cliente no tiene conexiones previas")
         except BleakDeviceNotFoundError:
-            print("Dispositivo no encontrado")
+            raise ConnectionUnsuccessfullException("Dispositivo no encontrado")
     
     async def subscribe_to_alert(self):
         '''
