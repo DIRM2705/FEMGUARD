@@ -61,6 +61,10 @@ Busca todos los dispositivos BLE cercanos,selecciona únicamente los que cumplan
 Conecta la aplicación al dispositivo BLE `device`
 
 **Parámetros:** **device** -  El nombre del dispositivo BLE al que se desea conectar.
+
+> async BLE.connect_to_last_device()
+
+Conecta la aplicación al último dispositivo BLE que se conectó
     
 > async BLE.subscribe_to_alert()
 

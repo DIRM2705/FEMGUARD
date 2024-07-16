@@ -1,4 +1,5 @@
 from bleak import BleakScanner, BleakClient, BLEDevice, AdvertisementData, BleakGATTCharacteristic
+from bleak.exc import BleakDeviceNotFoundError
 import asyncio
 
 class BLE :
@@ -74,7 +75,21 @@ class BLE :
             self._client = BleakClient(device)
             await self._client.connect()
         except KeyError:
+            print("El nombre del dispositivo no se encontró")
+        except BleakDeviceNotFoundError:
             print("Dispositivo no encotrado")
+    
+    async def connect_to_last_device(self):
+        '''
+        Conecta el cliente bluetooth al último dispositivo seleccionado
+        Se espera utilizar esta función al iniciar la app para reconectar el collar automáticamente
+        '''
+        try:
+            await self._client.connect()
+        except AttributeError:
+            print("El cliente no está vinculado")
+        except BleakDeviceNotFoundError:
+            print("Dispositivo no encontrado")
     
     async def subscribe_to_alert(self):
         '''
@@ -102,7 +117,7 @@ async def demo():
     devices = await ble.get_nearby_devices()
     if ble.has_devices():
         print(devices)
-        await ble.connect_to_device("FEMGUARD")        
+        await ble.connect_to_device("FEMGUARD")      
         await ble.subscribe_to_alert()
         await asyncio.sleep(180)
 
