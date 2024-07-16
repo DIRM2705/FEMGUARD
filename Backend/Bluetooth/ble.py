@@ -15,9 +15,9 @@ async def get_nearby_devices() -> list[BLEDevice]:
         
     return correct_nearby_devices
     
-def data_contains_inmediate_alert_UUID(adv_data : AdvertisementData):
-    INMEDIATE_ALERT_UUID = "00001802-0000-1000-8000-00805f9b34fb" #Obtenido de documento bt "Assigned numbers"
-    return INMEDIATE_ALERT_UUID in adv_data.service_uuids
+def data_contains_inmediate_alert_UUID(adv_data : AdvertisementData) -> bool:
+    IMMEDIATE_ALERT_UUID = "00001802-0000-1000-8000-00805f9b34fb" #Obtenido de documento bt "Assigned numbers"
+    return IMMEDIATE_ALERT_UUID in adv_data.service_uuids
     
     
 async def connect_to_device(device : BLEDevice) -> BleakClient:
