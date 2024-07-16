@@ -33,6 +33,7 @@ Finalmente, deberás instalar los paquetes y dependencias, para ello necesitas d
 pip install -r requirements.txt
 ```
 
+<h2> Bluetooth </h2>
 <h3> Cliente Bluetooth Low-Energy </h3>
 
 > class BLE()
@@ -58,13 +59,17 @@ Busca todos los dispositivos BLE cercanos,selecciona únicamente los que cumplan
         
 > async BLE.connect_to_device(device : str)
 
-Conecta la aplicación al dispositivo BLE `device`
+Conecta la aplicación al dispositivo BLE `device`.
+
+Arroja `ConnectionUnsuccessfullException` si no ha encontrado el dispositivo o el nombre del dispositivo ya no aparece en la lista de dipositivos disponibles.
 
 **Parámetros:** **device** -  El nombre del dispositivo BLE al que se desea conectar.
 
 > async BLE.connect_to_last_device()
 
-Conecta la aplicación al último dispositivo BLE que se conectó
+Conecta la aplicación al último dispositivo BLE que se conectó.
+
+Arroja `ConnectionUnsuccessfullException` si no encuentra el dispositivo o el cliente no ha estado conectado anteriormente.
     
 > async BLE.subscribe_to_alert()
 
@@ -75,3 +80,9 @@ Pone la aplicación a esperar en segundo plano que el dispositivo vinculado prod
 Revisa si la aplicación ha encontrado algún dispositivo cercano
 
 **Retorna:** Verdadero si hay se ha encontrado al menos un dispositivo
+
+<h3> Excepciones </h3>
+
+> exception ConnectionUnsuccessfullException
+
+Excepción arrojada cuando ha habido algún error en la conexión bluetooth.

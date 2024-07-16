@@ -117,10 +117,9 @@ async def demo():
     ble.callback = demo_callback
     devices = await ble.get_nearby_devices()
     if ble.has_devices():
-        print(devices)
-        await ble.connect_to_device("FEMGUARD")      
+        await ble.connect_to_device("FEMGUARD")  
         await ble.subscribe_to_alert()
-        await asyncio.sleep(180)
+        await asyncio.sleep(120)
 
 
 asyncio.run(demo())
