@@ -7,14 +7,14 @@ _HIGH_ALERT_MSSG = "High Alert"
 
 async def panic(sender : BleakGATTCharacteristic, data : bytearray):
     '''
-    Función que se debe llamar cuando al recibir la alerta inmediata del collar indicando que hay una emergencia
-    Espera 15 segundos antes de cancelar la tarea
+    Función que se debe llamar cuando al recibir la alerta inmediata del collar indicando que hay una emergencia.
+    Espera 15 segundos antes de cerrar la pantalla del botón cancelar y 
+    comenzar a realizar las acciones de seguridad
     '''
     if data.decode() == _HIGH_ALERT_MSSG:    
         try:
             task = asyncio.create_task(cancelation_bttn_task())
             await asyncio.wait_for(task, timeout=15)
-            cancel_alarm()
         except TimeoutError:
             #No se presionó el botón dentro de los 15 segundos
             print("La grabación comenzó")
@@ -25,6 +25,10 @@ async def cancelation_bttn_task():
     #TODO: llamar a abrir pantalla del botón
             
 def cancel_alarm():
+    '''
+    Función para cancelar la alarma, escribe en el canal de comunicación del collar el nivel de alerta como bajo,
+    abre la pantalla inicial y cierra la pantalla del botón cancelar
+    '''
     print("Alarma cancelada")
             
 async def demo():
