@@ -1,7 +1,6 @@
 from bleak import BleakScanner, BleakClient, BLEDevice, AdvertisementData, BleakGATTCharacteristic
 from bleak.exc import BleakDeviceNotFoundError
-from exceptions import *
-import asyncio
+from Bluetooth.exceptions import *
 
 class BLE :
     '''
@@ -106,20 +105,3 @@ class BLE :
         '''   
         
         return len(self._nearby_devices) > 0
-
-#Función de callback demo
-def demo_callback(sender: BleakGATTCharacteristic, data: bytearray):
-    print(f"{sender}: {data}")
-    
-    
-async def demo():
-    ble = BLE()
-    ble.callback = demo_callback
-    devices = await ble.get_nearby_devices()
-    if ble.has_devices():
-        await ble.connect_to_device("FEMGUARD")  
-        await ble.subscribe_to_alert()
-        await asyncio.sleep(120)
-
-
-asyncio.run(demo())
