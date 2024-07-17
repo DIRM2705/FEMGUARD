@@ -1,5 +1,5 @@
 from bleak import BleakGATTCharacteristic
-from Bluetooth.ble import BLE
+from Utils.ble import BLE
 import asyncio
 from asyncio.exceptions import TimeoutError
 

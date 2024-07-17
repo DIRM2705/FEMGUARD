@@ -1,6 +1,6 @@
 from bleak import BleakScanner, BleakClient, BLEDevice, AdvertisementData, BleakGATTCharacteristic
 from bleak.exc import BleakDeviceNotFoundError
-from Bluetooth.exceptions import *
+from Exceptions.btExc import *
 
 class BLE :
     '''
