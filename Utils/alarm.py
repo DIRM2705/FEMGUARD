@@ -1,5 +1,5 @@
 from bleak import BleakGATTCharacteristic
-from Utils.ble import BLE
+from ble import BLE
 import asyncio
 from asyncio.exceptions import TimeoutError
 

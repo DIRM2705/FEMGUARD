@@ -1,6 +1,7 @@
 from bleak import BleakScanner, BleakClient, BLEDevice, AdvertisementData, BleakGATTCharacteristic
 from bleak.exc import BleakDeviceNotFoundError
 from Exceptions.btExc import *
+from alarm import panic
 
 class BLE :
     '''
@@ -23,7 +24,7 @@ class BLE :
         '''
         self._client = None
         self._nearby_devices = dict()
-        self.callback = None
+        self._callback = panic
         
     async def get_nearby_devices(self) -> list[str]:
         '''
@@ -95,7 +96,7 @@ class BLE :
         '''
         Pone al cliente a la espera de que el dispositivo conectado envíe notificaciones de alerta inmediata
         '''
-        await self._client.start_notify(self._ALERT_LEVEL_UUID, self.callback)
+        await self._client.start_notify(self._ALERT_LEVEL_UUID, self._callback)
  
     async def dismiss_alert(self):
         '''
