@@ -24,9 +24,12 @@ async def cancelation_bttn_task():
     print("Cancelation task")
     #TODO: llamar a abrir pantalla del botón
             
-def cancel_alarm():
+def cancel_alarm(ble : BLE):
     '''
-    Función para cancelar la alarma,
+    Función para cancelar la alarma, escribe en el canal de comunicación del collar el nivel de alerta como bajo,
     abre la pantalla inicial y cierra la pantalla del botón cancelar
+    
+    Parámetros:     ble - El cliente bluetooth de la app
     '''
-    print("Alarma cancelada")    
+    print("Alarma cancelada")
+    
