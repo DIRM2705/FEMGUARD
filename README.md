@@ -75,6 +75,10 @@ Arroja `ConnectionUnsuccessfullException` si no encuentra el dispositivo o el cl
 
 Pone la aplicación a esperar en segundo plano que el dispositivo vinculado produzca alertas inmediatas.
 
+> async BLE.dismiss_alert()
+
+Cambia el nivel de alerta a `No Alert` en la característica, `Alert Level` del dispositivo.
+
 > async BLE.has_devices() → bool
 
 Revisa si la aplicación ha encontrado algún dispositivo cercano
