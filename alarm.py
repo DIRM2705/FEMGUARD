@@ -26,7 +26,7 @@ async def cancelation_bttn_task():
             
 def cancel_alarm():
     '''
-    Función para cancelar la alarma, escribe en el canal de comunicación del collar el nivel de alerta como bajo,
+    Función para cancelar la alarma,
     abre la pantalla inicial y cierra la pantalla del botón cancelar
     '''
     print("Alarma cancelada")    
