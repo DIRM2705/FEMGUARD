@@ -56,7 +56,8 @@ Conecta la aplicación al dispositivo BLE `device`.
 
 Arroja `ConnectionUnsuccessfullException` si no ha encontrado el dispositivo o el nombre del dispositivo ya no aparece en la lista de dipositivos disponibles.
 
-**Parámetros:** **device** -  El nombre del dispositivo BLE al que se desea conectar.
+**Parámetros:**
+**device** -  El nombre del dispositivo BLE al que se desea conectar.
 
 > async BLE.connect_to_last_device()
 
@@ -83,3 +84,18 @@ Revisa si la aplicación ha encontrado algún dispositivo cercano
 > exception ConnectionUnsuccessfullException
 
 Excepción arrojada cuando ha habido algún error en la conexión bluetooth.
+
+<hr>
+
+<h2> Mensajes </h2>
+
+> send_SOS_message(name : str, emergency_numbers : list[str], location : tuple[float, float])
+
+Crea un cliente de Twilio y se conecta al servidor.
+Envía el mensaje de asistencia a todos los contactos de emergencia
+    
+**Parámetros:** 
+
+**name** - El nombre del usuario
+**emergency_numbers** - Los números de los contactos seleccionados por el usuario
+**location** - La latitutud y longitud de la posición (obtenidas del geolocalizador de flet)
