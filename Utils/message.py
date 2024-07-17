@@ -10,6 +10,7 @@ Llama a los servicios de emergencia cuanto antes.
 
 _TWILIO_SSID = os.environ["TWILIO_SSID"]
 _AUTH_TOKEN = os.environ["TWILIO_AUTH"]
+_SENDER = os.environ["TELEPHONE"]
 
                     
 def send_SOS_message(name : str, emergency_numbers : list[str], location : tuple[float, float]):
@@ -26,6 +27,6 @@ def send_SOS_message(name : str, emergency_numbers : list[str], location : tuple
         twilio_client.messages.create(
             #Poner los datos del usuario en el mensaje a enviar
             body=_TEMPLATE_MESSAGE.format(name, location[0], location[1]),
-            from_="",
+            from_=_SENDER,
             to=number
         )
