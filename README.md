@@ -44,13 +44,6 @@ Cliente bluetooth low energy de la aplicación.
     - Tienen la UUID de alerta inmediata
 - Se suscribirá a las notificaciones enviadas por el dispositivo de seguridad
 
-> property BLE.callback : function(sender: BleakGATTCharacteristic, data: bytearrays)
-
-La función que se ejecutará cuando la aplicación reciva una alerta inmediata.
-La función puede o no ser asíncrona, no debe retornar nada y debe tener únicamente dos parámetros:
-- `sender` de tipo [BleakGATTCharacteristic](https://bleak.readthedocs.io/en/latest/api/index.html#bleak.backends.characteristic.BleakGATTCharacteristic)
-- `data` que es un arreglo de bytes
-
 > async BLE.get_nearby_devices() → list[str]
 
 Busca todos los dispositivos BLE cercanos,selecciona únicamente los que cumplan con las características preestablecidas y crea una lista con sus nombres
