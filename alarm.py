@@ -29,17 +29,4 @@ def cancel_alarm():
     Función para cancelar la alarma, escribe en el canal de comunicación del collar el nivel de alerta como bajo,
     abre la pantalla inicial y cierra la pantalla del botón cancelar
     '''
-    print("Alarma cancelada")
-            
-async def demo():
-    ble = BLE()
-    ble.callback = panic
-    await ble.get_nearby_devices()
-    if ble.has_devices():
-        await ble.connect_to_device("FEMGUARD")
-        await ble.subscribe_to_alert()
-        await asyncio.sleep(120)
-
-asyncio.run(demo())
-        
-    
+    print("Alarma cancelada")    
