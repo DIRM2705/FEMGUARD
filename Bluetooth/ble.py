@@ -12,7 +12,7 @@ class BLE :
     '''
     #constantes de clase
     _IMMEDIATE_ALERT_UUID = "00001802-0000-1000-8000-00805f9b34fb"
-    _ALERT_LEVEL_ID = 8
+    _ALERT_LEVEL_UUID = "00002a06-0000-1000-8000-00805f9b34fb"
     
     def __init__(self):
         '''
@@ -95,7 +95,13 @@ class BLE :
         '''
         Pone al cliente a la espera de que el dispositivo conectado envíe notificaciones de alerta inmediata
         '''
-        await self._client.start_notify(self._ALERT_LEVEL_ID, self.callback)
+        await self._client.start_notify(self._ALERT_LEVEL_UUID, self.callback)
+ 
+    async def dismiss_alert(self):
+        '''
+        Cambia el nivel de alerta a "No alert" en el dispositivo conectado
+        '''
+        await self._client.write_gatt_char(self._ALERT_LEVEL_UUID, data=b"No Alert", response=False)
  
     def has_devices(self) -> bool:
         '''
