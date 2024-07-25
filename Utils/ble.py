@@ -15,6 +15,7 @@ class BLE :
     #constantes de clase
     _IMMEDIATE_ALERT_UUID = "00001802-0000-1000-8000-00805f9b34fb"
     _ALERT_LEVEL_UUID = "00002a06-0000-1000-8000-00805f9b34fb"
+    _UART_TX_UUID = "6E400001-B5A3-F393-E0A9-E50E24DCCA9E"
     
     def __init__(self):
         '''
@@ -42,6 +43,13 @@ class BLE :
                 #No se presionó el botón dentro de los 15 segundos
                 print("La grabación comenzó")
                 print("Notificar contactos")
+    
+    async def video_recording_function(sender : BleakGATTCharacteristic, data : bytearray):
+        '''
+        Función que se llama cuando comienza la grabación de video.
+        Pasa los datos recolectados por el sensor de cámara a un archivo .raw
+        '''
+        raise NotImplementedError
         
     async def get_nearby_devices(self) -> list[str]:
         '''
@@ -109,11 +117,13 @@ class BLE :
         except BleakDeviceNotFoundError:
             raise ConnectionUnsuccessfullException("Dispositivo no encontrado")
     
-    async def subscribe_to_alert(self):
+    async def subscribe_to_alerts(self):
         '''
         Pone al cliente a la espera de que el dispositivo conectado envíe notificaciones de alerta inmediata
+        o reciba datos del sensor de cámara
         '''
         await self._client.start_notify(self._ALERT_LEVEL_UUID, BLE.panic_function)
+        await self._client.start_notify(self._UART_TX_UUID, BLE.video_recording_function)
  
     async def dismiss_alert(self):
         '''
