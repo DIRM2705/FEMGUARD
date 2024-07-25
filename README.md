@@ -65,9 +65,9 @@ Conecta la aplicación al último dispositivo BLE que se conectó.
 
 Arroja `ConnectionUnsuccessfullException` si no encuentra el dispositivo o el cliente no ha estado conectado anteriormente.
     
-> async BLE.subscribe_to_alert()
+> async BLE.subscribe_to_alerts()
 
-Pone la aplicación a esperar en segundo plano que el dispositivo vinculado produzca alertas inmediatas.
+Pone la aplicación a esperar en segundo plano que el dispositivo vinculado produzca alertas inmediatas o comience la transmisión de video.
 
 > async BLE.dismiss_alert()
 
