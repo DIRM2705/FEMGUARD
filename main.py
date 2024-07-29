@@ -21,15 +21,40 @@ def add_bottom_appbar(page : ft.Page):
         bgcolor="White",
         content= ft.Row(
             controls=[
-            ft.IconButton(ft.icons.PHONE), #Botón pantalla directorio
-            ft.IconButton(ft.icons.BLUETOOTH), #Botón pantalla conexiones
-            ft.IconButton(ft.icons.ALARM), #Botón pantalla principal
-            ft.IconButton(ft.icons.INFO), #Botón pantalla información
-            ft.IconButton(ft.icons.VIDEO_CAMERA_BACK), #Botón pantalla videos
+            ft.IconButton(ft.icons.PHONE, on_click=directorio_onclick), #Botón pantalla directorio
+            ft.IconButton(ft.icons.BLUETOOTH, on_click=conexiones_onclick), #Botón pantalla conexiones
+            ft.IconButton(ft.icons.ALARM, on_click=home_onclick), #Botón pantalla principal
+            ft.IconButton(ft.icons.INFO, on_click=info_onclick), #Botón pantalla información
+            ft.IconButton(ft.icons.VIDEO_CAMERA_BACK, on_click=video_onclick), #Botón pantalla videos
             ],
             alignment= ft.MainAxisAlignment.SPACE_EVENLY
         )        
     )
+    
+def directorio_onclick(e : ft.ControlEvent):
+    e.page.controls.clear()
+    #TODO: Abrir screen directorio
+    print("Directorio")
+
+def conexiones_onclick(e):
+    e.page.controls.clear()
+    #TODO: Abrir screen conexiones
+    print("Conexiones")
+
+def home_onclick(e):
+    e.page.controls.clear()
+    #TODO: Abrir screen home
+    print("Home")
+
+def info_onclick(e):
+    e.page.controls.clear()
+    #TODO: Abrir screen info
+    print("Info")
+
+def video_onclick(e):
+    e.page.controls.clear()
+    #TODO: Abrir screen video
+    print("Video")
     
 async def main(page: ft.Page):
     if page.platform.name == "WINDOWS":
@@ -42,6 +67,5 @@ async def main(page: ft.Page):
     setup_screen(page)
     add_bottom_appbar(page)
     page.update()
-    
 
-asyncio.run(ft.app_async(target=main))
+asyncio.run(ft.app_async(target=main, name="FEMGUARD"))
