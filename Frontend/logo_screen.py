@@ -18,7 +18,7 @@ def main(page: ft.Page):
 
 
     img = ft.Image(
-        src=f"C:/Users/whyga/Downloads/Image (1).png",
+        src=f"..\images\FEMGUARD LOGO.png",
         width=225,
         height=225,
         fit=ft.ImageFit.CONTAIN,
