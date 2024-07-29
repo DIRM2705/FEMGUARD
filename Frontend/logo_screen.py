@@ -11,6 +11,7 @@ async def setup_ble_devices():
         pass
 
 async def main(page: ft.Page):
+    page.bgcolor = "White"
     img = ft.Image(
         src=f"images/FEMGUARD LOGO.png",
         width=225,
