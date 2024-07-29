@@ -1,5 +1,5 @@
 import flet as ft
-from Frontend import logo_screen
+from Frontend import logo_screen, directorio, info
 import asyncio
 
 def setup_screen(page : ft.Page):
@@ -33,8 +33,8 @@ def add_bottom_appbar(page : ft.Page):
     
 def directorio_onclick(e : ft.ControlEvent):
     e.page.controls.clear()
-    #TODO: Abrir screen directorio
-    print("Directorio")
+    directorio.main(e.page)
+    
 
 def conexiones_onclick(e):
     e.page.controls.clear()
@@ -48,8 +48,7 @@ def home_onclick(e):
 
 def info_onclick(e):
     e.page.controls.clear()
-    #TODO: Abrir screen info
-    print("Info")
+    info.main(e.page)
 
 def video_onclick(e):
     e.page.controls.clear()
