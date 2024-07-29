@@ -1,7 +1,8 @@
 from bleak import BleakScanner, BleakClient, BLEDevice, AdvertisementData, BleakGATTCharacteristic
 from bleak.exc import BleakDeviceNotFoundError
 from Exceptions.btExc import *
-from alarm import panic
+import asyncio
+from asyncio.exceptions import TimeoutError
 
 class BLE :
     '''
@@ -14,6 +15,7 @@ class BLE :
     #constantes de clase
     _IMMEDIATE_ALERT_UUID = "00001802-0000-1000-8000-00805f9b34fb"
     _ALERT_LEVEL_UUID = "00002a06-0000-1000-8000-00805f9b34fb"
+    _UART_TX_UUID = "6E400001-B5A3-F393-E0A9-E50E24DCCA9E"
     
     def __init__(self):
         '''
@@ -24,7 +26,30 @@ class BLE :
         '''
         self._client = None
         self._nearby_devices = dict()
-        self._callback = panic
+
+    async def panic_function(sender : BleakGATTCharacteristic, data : bytearray):
+        '''
+        Función que se debe llamar cuando al recibir la alerta inmediata del collar indicando que hay una emergencia.
+        Espera 15 segundos antes de cerrar la pantalla del botón cancelar y 
+        comenzar a realizar las acciones de seguridad
+        '''
+        HIGH_ALERT_MSSG = "High Alert"
+        
+        if data.decode() == HIGH_ALERT_MSSG:    
+            try:
+                task = asyncio.create_task()
+                await asyncio.wait_for(task, timeout=15)
+            except TimeoutError:
+                #No se presionó el botón dentro de los 15 segundos
+                print("La grabación comenzó")
+                print("Notificar contactos")
+    
+    async def video_recording_function(sender : BleakGATTCharacteristic, data : bytearray):
+        '''
+        Función que se llama cuando comienza la grabación de video.
+        Pasa los datos recolectados por el sensor de cámara a un archivo .raw
+        '''
+        raise NotImplementedError
         
     async def get_nearby_devices(self) -> list[str]:
         '''
@@ -92,11 +117,13 @@ class BLE :
         except BleakDeviceNotFoundError:
             raise ConnectionUnsuccessfullException("Dispositivo no encontrado")
     
-    async def subscribe_to_alert(self):
+    async def subscribe_to_alerts(self):
         '''
         Pone al cliente a la espera de que el dispositivo conectado envíe notificaciones de alerta inmediata
+        o reciba datos del sensor de cámara
         '''
-        await self._client.start_notify(self._ALERT_LEVEL_UUID, self._callback)
+        await self._client.start_notify(self._ALERT_LEVEL_UUID, BLE.panic_function)
+        await self._client.start_notify(self._UART_TX_UUID, BLE.video_recording_function)
  
     async def dismiss_alert(self):
         '''
