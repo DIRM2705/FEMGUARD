@@ -1,15 +1,6 @@
 import flet as ft
-from Utils.ble import BLE
-from Frontend import directorio, logo_screen
-from Exceptions.btExc import ConnectionUnsuccessfullException
+from Frontend import logo_screen
 import asyncio
-
-async def setup_ble_devices():
-    ble = BLE() #Obtener de archivo
-    try:
-        await ble.connect_to_last_device()
-    except ConnectionUnsuccessfullException as e:
-        pass
 
 def setup_screen(page : ft.Page):
     page.window.maximizable = False

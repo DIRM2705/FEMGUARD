@@ -1,6 +1,16 @@
 import flet as ft
+from Utils.ble import BLE
+from Exceptions.btExc import ConnectionUnsuccessfullException
 
-def main(page: ft.Page):
+async def setup_ble_devices():
+    ble = BLE() #Obtener de archivo
+    try:
+        await ble.connect_to_last_device()
+    except ConnectionUnsuccessfullException as e:
+        print(e)
+        pass
+
+async def main(page: ft.Page):
     img = ft.Image(
         src=f"images/FEMGUARD LOGO.png",
         width=225,
@@ -12,3 +22,5 @@ def main(page: ft.Page):
 
     page.add(img)
     page.update()
+    
+    await setup_ble_devices()
