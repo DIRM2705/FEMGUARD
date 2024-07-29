@@ -29,8 +29,6 @@ async def main(page: ft.Page):
     setup_screen(page)
     add_appbar(page)
     await logo_screen.main(page)
-    await asyncio.sleep(5)
-    await directorio.main(page)
     
 
 asyncio.run(ft.app_async(target=main))
