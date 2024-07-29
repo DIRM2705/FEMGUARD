@@ -13,5 +13,3 @@ def main(page : ft.Page):
         ft.TextButton("Correo electrónico", icon="EMAIL",icon_color="#000000"),
     )
     page.update()
-    
-ft.app(target=main)
