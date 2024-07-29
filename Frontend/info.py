@@ -1,18 +1,5 @@
 import flet as ft
 
-def setup_screen(page : ft.Page):
-    page.window.maximizable = False
-    page.window.width = 300 #Ancho de la pantalla
-    page.window.height = 500 #Largo de la pantalla
-    page.bgcolor = '#FFC5D9'
-    
-def add_bars(page : ft.Page):
-    page.appbar = ft.AppBar(
-        bgcolor='#8A5D86', #Color de la barra superior
-        toolbar_height=25, #Altura de la barra superior
-        shape=ft.RoundedRectangleBorder(radius=3.5)) #Cambiar radio para cambiar cuanto se redondea la barra superior
-
-
 def add_labels(page: ft.Page):
     def button_clicked(e):
         t.value = f"Textboxes values are:  '{tb1.value}', '{tb2.value}', '{tb3.value}', '{tb4.value}','{tb5.value}'."
@@ -98,14 +85,5 @@ def add_labels(page: ft.Page):
     
 
 def main(page : ft.Page):
-    setup_screen(page)
     add_labels(page)
-   
-    #Quitar para la splash screen
-    add_bars(page)
     page.update()
-    
-    
-
-    
-ft.app(target=main)
