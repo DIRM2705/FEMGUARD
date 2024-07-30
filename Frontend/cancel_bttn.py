@@ -1,5 +1,4 @@
 import flet as ft
-from bleak import BleakGATTCharacteristic
 import asyncio
 
 def main(page : ft.Page):
@@ -18,7 +17,7 @@ def main(page : ft.Page):
     
 ft.app(main)
     
-async def panic_function(sender : BleakGATTCharacteristic, data : bytearray):
+async def panic_function(sender, data : bytearray):
     '''
     Función que se debe llamar cuando al recibir la alerta inmediata del collar indicando que hay una emergencia.
     Espera 15 segundos antes de cerrar la pantalla del botón cancelar y 
