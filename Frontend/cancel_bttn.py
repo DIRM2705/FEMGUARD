@@ -4,7 +4,8 @@ import asyncio
 
 def main(page : ft.Page):
     page.vertical_alignment = ft.MainAxisAlignment.CENTER
-    page.horizontal_alignment = ft.CrossAxisAlignment.START
+    page.horizontal_alignment = ft.CrossAxisAlignment.CENTER
+    title = ft.Text(value="DETENER ALARMA", color="Pink", weight=ft.FontWeight.BOLD, size=25)
     cancel_bttn = ft.IconButton(
         icon=ft.icons.FRONT_HAND,
         icon_color="White",
@@ -13,7 +14,9 @@ def main(page : ft.Page):
         tooltip="Detener alarma"
     )
     
-    page.add(cancel_bttn)
+    page.add(title, cancel_bttn)
+    
+ft.app(main)
     
 async def panic_function(sender : BleakGATTCharacteristic, data : bytearray):
     '''
