@@ -1,14 +1,16 @@
 import flet as ft
 from Frontend import logo_screen, directorio, info
 import asyncio
+import locale
 
 def setup_screen(page : ft.Page):
     page.bgcolor = "#FFC5D9"
-    page.padding=0
     page.adaptative= True
     page.vertical_alignment = ft.MainAxisAlignment.START
     page.horizontal_alignment = ft.CrossAxisAlignment.START
     page.locale_configuration = ft.LocaleConfiguration(current_locale=ft.Locale("es", "MX"))
+    locale.setlocale(locale.LC_ALL, locale="es")
+    page.scroll = ft.ScrollMode.ADAPTIVE
    
 def add_appbar(page : ft.Page):
     page.appbar = ft.AppBar(

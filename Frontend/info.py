@@ -1,89 +1,68 @@
 import flet as ft
+import calendar
+import datetime
+
 
 def add_labels(page: ft.Page):
-    def button_clicked(e):
-        t.value = f"Textboxes values are:  '{tb1.value}', '{tb2.value}', '{tb3.value}', '{tb4.value}','{tb5.value}'."
-        page.update()
-
-    t = ft.Text()
+    tipos_de_sangre = ["O+", "O-", "A+", "A-", "B+", "B-", "AB+", "AB-"]
     tb1 = ft.TextField(label="Nombre")
     tb2 = ft.TextField(label="Apellidos")
     tb3 = ft.TextField(label="Celular")
-    tb4 = ft.TextField(label="Tipo de sangre")
-    page.add(tb1, tb2, tb3, tb4, t)
+    tb4 = ft.Dropdown(
+            label="Tipo de sangre",
+            options=[ft.dropdown.Option(x) for x in tipos_de_sangre],
+        )
+    page.add(tb1, tb2, tb3, tb4)
     
-    page.add(
-        ft.Dropdown(
-            label="Día de nacimiento",
-            hint_text="Selecciona tu día de nacimiento",
-            options=[
-                ft.dropdown.Option("1"),
-                ft.dropdown.Option("2"),
-                ft.dropdown.Option("3"),
-                ft.dropdown.Option("4"),
-                ft.dropdown.Option("5"),
-                ft.dropdown.Option("6"),
-                ft.dropdown.Option("7"),
-                ft.dropdown.Option("8"),
-                ft.dropdown.Option("9"),
-                ft.dropdown.Option("10"),
-                ft.dropdown.Option("11"),
-                ft.dropdown.Option("12"),
-                ft.dropdown.Option("13"),
-                ft.dropdown.Option("14"),
-                ft.dropdown.Option("15"),
-                ft.dropdown.Option("16"),
-                ft.dropdown.Option("17"),
-                ft.dropdown.Option("18"),
-                ft.dropdown.Option("19"),
-                ft.dropdown.Option("20"),
-                ft.dropdown.Option("21"),
-                ft.dropdown.Option("22"),
-                ft.dropdown.Option("23"),
-                ft.dropdown.Option("24"),
-                ft.dropdown.Option("25"),
-                ft.dropdown.Option("26"),
-                ft.dropdown.Option("27"),
-                ft.dropdown.Option("28"),
-                ft.dropdown.Option("29"),
-                ft.dropdown.Option("30"),
-                ft.dropdown.Option("31"),
-            ],
-            autofocus=True,
+    
+def add_birthdate_sel(page : ft.Page):
+    def on_month_year_change(e):
+        year = actual_year if not year_dropdown.value else int(year_dropdown.value)
+        month = list(calendar.month_abbr).index(month_dropdown.value)
+        day_dropdown.options = [ft.dropdown.Option(i) for i in range(1, calendar.monthrange(year, month)[1] + 1)]
+        page.update()
+        
+    actual_year = datetime.date.today().year
+    control_width = page.width/3.5
+    
+    day_dropdown = ft.Dropdown(
+            label="Día",
+            options=[ft.dropdown.Option(i) for i in range (1, 32)],
+            width=control_width
         )
-    )
-    page.add(
-        ft.Dropdown(
-            label="Mes de nacimiento",
-            hint_text="Selecciona tu mes de nacimiento",
-            options=[
-                ft.dropdown.Option("Enero"),
-                ft.dropdown.Option("Febrero"),
-                ft.dropdown.Option("Marzo"),
-                ft.dropdown.Option("Abril"),
-                ft.dropdown.Option("Mayo"),
-                ft.dropdown.Option("Junio"),
-                ft.dropdown.Option("Julio"),
-                ft.dropdown.Option("Agosto"),
-                ft.dropdown.Option("Septiembre"),
-                ft.dropdown.Option("Octubre"),
-                ft.dropdown.Option("Noviembre"),
-                ft.dropdown.Option("Diciembre"),
-            ],
-            autofocus=True,
-            border_width=0.5
+    
+    month_dropdown = ft.Dropdown(
+            label="Mes",
+            options=[ft.dropdown.Option(calendar.month_abbr[i]) for i in range(1, 13)],
+            on_change=on_month_year_change,
+            width=control_width
         )
+    
+    year_dropdown = ft.Dropdown(
+            label="Año",
+            options=[ft.dropdown.Option(i) for i in range(actual_year, actual_year - 80, -1)],
+            on_change=on_month_year_change,
+            width=control_width
+        )
+    
+    selector = ft.Row(
+        controls=[day_dropdown, month_dropdown, year_dropdown],
+        alignment=ft.MainAxisAlignment.SPACE_BETWEEN
     )
-    tb5 = ft.TextField(label="Año de nacimiento")
-    page.add(tb5, ft.Text("Ingresa tus 5 contactos de emergencia", size=12, weight=ft.FontWeight.W_900, selectable=True))
+    
+    page.add(ft.Text("Fecha de nacimiento"), selector)
+    
+def add_contacts(page : ft.Page):
+    page.add(ft.Text("Ingresa tus 5 contactos de emergencia", size=12, weight=ft.FontWeight.W_900))
     tb6 = ft.TextField(label="Contacto 1")
     tb7 = ft.TextField(label="Contacto 2")
     tb8= ft.TextField(label="Contacto 3")
     tb9 = ft.TextField(label="Contacto 4")
     tb10 = ft.TextField(label="Contacto 5")
     page.add(tb6, tb7, tb8, tb9, tb10)
-    
 
 def main(page : ft.Page):
     add_labels(page)
+    add_birthdate_sel(page)
+    add_contacts(page)
     page.update()
