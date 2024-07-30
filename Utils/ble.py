@@ -1,8 +1,7 @@
 from bleak import BleakScanner, BleakClient, BLEDevice, AdvertisementData, BleakGATTCharacteristic
 from bleak.exc import BleakDeviceNotFoundError
 from Exceptions.btExc import *
-import asyncio
-from asyncio.exceptions import TimeoutError
+from Utils.file import make_video
 
 class BLE :
     '''
@@ -26,30 +25,6 @@ class BLE :
         '''
         self._client = None
         self._nearby_devices = dict()
-
-    async def panic_function(sender : BleakGATTCharacteristic, data : bytearray):
-        '''
-        Función que se debe llamar cuando al recibir la alerta inmediata del collar indicando que hay una emergencia.
-        Espera 15 segundos antes de cerrar la pantalla del botón cancelar y 
-        comenzar a realizar las acciones de seguridad
-        '''
-        HIGH_ALERT_MSSG = "High Alert"
-        
-        if data.decode() == HIGH_ALERT_MSSG:    
-            try:
-                task = asyncio.create_task()
-                await asyncio.wait_for(task, timeout=15)
-            except TimeoutError:
-                #No se presionó el botón dentro de los 15 segundos
-                print("La grabación comenzó")
-                print("Notificar contactos")
-    
-    async def video_recording_function(sender : BleakGATTCharacteristic, data : bytearray):
-        '''
-        Función que se llama cuando comienza la grabación de video.
-        Pasa los datos recolectados por el sensor de cámara a un archivo .raw
-        '''
-        raise NotImplementedError
         
     async def get_nearby_devices(self) -> list[str]:
         '''
@@ -123,7 +98,7 @@ class BLE :
         o reciba datos del sensor de cámara
         '''
         await self._client.start_notify(self._ALERT_LEVEL_UUID, BLE.panic_function)
-        await self._client.start_notify(self._UART_TX_UUID, BLE.video_recording_function)
+        await self._client.start_notify(self._UART_TX_UUID, make_video)
  
     async def dismiss_alert(self):
         '''
