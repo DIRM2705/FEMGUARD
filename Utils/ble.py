@@ -1,7 +1,6 @@
 from bleak import BleakScanner, BleakClient, BLEDevice, AdvertisementData, BleakGATTCharacteristic
 from bleak.exc import BleakDeviceNotFoundError
 from Exceptions.btExc import *
-from Utils.file import make_video
 
 class BLE :
     '''
@@ -16,15 +15,20 @@ class BLE :
     _ALERT_LEVEL_UUID = "00002a06-0000-1000-8000-00805f9b34fb"
     _UART_TX_UUID = "6E400001-B5A3-F393-E0A9-E50E24DCCA9E"
     
-    def __init__(self):
+    def __init__(self, panic_function, vid_function):
         '''
         Constructor de clase, inicializa:
             - Cliente bluetooth
             - Diccionario de dispositivos cercanos
             - Función a ejecutar al recibir la alerta
+            
+        Parámetros:     panic_fuction: La función que debe llamarse cuando se obtiene una señal de alarma
+                        vid_function: La función que debe llamarse cuando se reciben datos de video
         '''
         self._client = None
         self._nearby_devices = dict()
+        self._panic_function = panic_function
+        self._make_vid_function = vid_function
         
     async def get_nearby_devices(self) -> list[str]:
         '''
@@ -97,8 +101,8 @@ class BLE :
         Pone al cliente a la espera de que el dispositivo conectado envíe notificaciones de alerta inmediata
         o reciba datos del sensor de cámara
         '''
-        await self._client.start_notify(self._ALERT_LEVEL_UUID, BLE.panic_function)
-        await self._client.start_notify(self._UART_TX_UUID, make_video)
+        await self._client.start_notify(self._ALERT_LEVEL_UUID, self._panic_function)
+        await self._client.start_notify(self._UART_TX_UUID, self._make_vid_function)
  
     async def dismiss_alert(self):
         '''
