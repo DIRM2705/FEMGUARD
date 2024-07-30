@@ -1,5 +1,5 @@
 import flet as ft
-from Frontend import logo_screen, directorio, info
+from Frontend import logo_screen, directorio, info, home_screen
 import asyncio
 import locale
 
@@ -67,6 +67,7 @@ async def main(page: ft.Page):
     await logo_screen.main(page)    
     setup_screen(page)
     add_bottom_appbar(page)
+    await home_screen.main(page)
     page.update()
 
 asyncio.run(ft.app_async(target=main, name="FEMGUARD"))
