@@ -62,6 +62,8 @@ def add_contacts(page : ft.Page):
     page.add(tb6, tb7, tb8, tb9, tb10)
 
 def main(page : ft.Page):
+    page.vertical_alignment = ft.MainAxisAlignment.CENTER
+    page.horizontal_alignment = ft.CrossAxisAlignment.CENTER
     add_labels(page)
     add_birthdate_sel(page)
     add_contacts(page)

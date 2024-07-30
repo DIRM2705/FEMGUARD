@@ -1,6 +1,8 @@
 import flet as ft
 
 def main(page : ft.Page):
+    page.vertical_alignment = ft.MainAxisAlignment.START
+    page.horizontal_alignment = ft.CrossAxisAlignment.START
     page.add(
         ft.Text("NÚMEROS PARA EMERGENCIAS", size=14, weight=ft.FontWeight.W_900, selectable=True),
         ft.Text("Marcación rápida de auxilio", size=10),
