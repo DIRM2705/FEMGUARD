@@ -15,21 +15,21 @@ def setup_screen(page : ft.Page):
 def add_appbar(page : ft.Page):
     page.appbar = ft.AppBar(
         bgcolor="#E1BFD0", #Color de la barra superior
-        toolbar_height=35, #Altura de la barra superior
-        shape=ft.RoundedRectangleBorder(radius=3.5)) #Cambiar radio para cambiar cuanto se redondea la barra superior
+        toolbar_height=40, #Altura de la barra superior
+        shape=ft.RoundedRectangleBorder(radius=3.5))
     
 def add_bottom_appbar(page : ft.Page):
     page.bottom_appbar = ft.BottomAppBar(
         bgcolor="White",
         content= ft.Row(
             controls=[
-            ft.IconButton(ft.icons.PHONE, on_click=directorio_onclick), #Botón pantalla directorio
-            ft.IconButton(ft.icons.BLUETOOTH, on_click=conexiones_onclick), #Botón pantalla conexiones
-            ft.IconButton(ft.icons.ALARM, on_click=home_onclick), #Botón pantalla principal
-            ft.IconButton(ft.icons.INFO, on_click=info_onclick), #Botón pantalla información
-            ft.IconButton(ft.icons.VIDEO_CAMERA_BACK, on_click=video_onclick), #Botón pantalla videos
+            ft.IconButton(ft.icons.CALL,icon_color="#DC92B5", on_click=directorio_onclick),#boton contactos
+            ft.IconButton(ft.icons.BLUETOOTH,icon_color="#DC92B5", on_click=conexiones_onclick), #Botón pantalla conexiones
+            ft.IconButton(ft.icons.HOME,icon_color="#CB568D", on_click=home_onclick), #Botón pantalla principal
+            ft.IconButton(ft.icons.BADGE,icon_color="#DC92B5", on_click=info_onclick), #Botón pantalla información
+            ft.IconButton(ft.icons.LINKED_CAMERA,icon_color="#DC92B5", on_click=video_onclick), #Botón pantalla videos
             ],
-            alignment= ft.MainAxisAlignment.SPACE_EVENLY
+            alignment=ft.MainAxisAlignment.SPACE_EVENLY
         )        
     )
     
@@ -45,8 +45,7 @@ def conexiones_onclick(e):
 
 def home_onclick(e):
     e.page.controls.clear()
-    #TODO: Abrir screen home
-    print("Home")
+    home_screen.main(e.page)
 
 def info_onclick(e):
     e.page.controls.clear()
@@ -67,7 +66,8 @@ async def main(page: ft.Page):
     await logo_screen.main(page)    
     setup_screen(page)
     add_bottom_appbar(page)
-    await home_screen.main(page)
+    page.controls.clear()
+    home_screen.main(page)
     page.update()
 
 asyncio.run(ft.app_async(target=main, name="FEMGUARD"))
