@@ -56,12 +56,14 @@ def video_onclick(e):
     #TODO: Abrir screen video
     print("Video")
     
-async def main(page: ft.Page):
+def config_for_pc(page : ft.Page):
     if page.platform.name == "WINDOWS":
         page.window.maximizable = False
         page.window.width = 350 #Ancho de la pantalla tani cambialo a 395  350
         page.window.height = 750 #Largo de la pantalla   750
-        
+    
+async def main(page: ft.Page):
+    config_for_pc(page)
     add_appbar(page)
     await logo_screen.main(page)    
     setup_screen(page)
