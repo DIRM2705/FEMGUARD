@@ -4,11 +4,13 @@ import asyncio
 
 def main(page : ft.Page):
     page.vertical_alignment = ft.MainAxisAlignment.CENTER
-    page.horizontal_alignment = ft.CrossAxisAlignment.CENTER
-    cancel_bttn = ft.ElevatedButton(
-        text="DETENER ALARMA", 
-        style=ft.ButtonStyle(shape=ft.RoundedRectangleBorder(radius=25)),
-        bgcolor="Red"
+    page.horizontal_alignment = ft.CrossAxisAlignment.START
+    cancel_bttn = ft.IconButton(
+        icon=ft.icons.FRONT_HAND,
+        icon_color="White",
+        icon_size=150,
+        bgcolor="Red",
+        tooltip="Detener alarma"
     )
     
     page.add(cancel_bttn)
