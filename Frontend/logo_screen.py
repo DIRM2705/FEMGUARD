@@ -1,9 +1,10 @@
 import flet as ft
 from Utils.ble import BLE
 from Exceptions.btExc import ConnectionUnsuccessfullException
+from Utils import alarm, file
 
 async def setup_ble_devices():
-    ble = BLE() #Obtener de archivo
+    ble = BLE(alarm.Alarm.panic, file.make_video) #Obtener de archivo
     try:
         await ble.connect_to_last_device()
     except ConnectionUnsuccessfullException as e:
