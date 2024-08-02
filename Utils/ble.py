@@ -102,7 +102,7 @@ class BLE :
         o reciba datos del sensor de cámara
         '''
         await self._client.start_notify(self._ALERT_LEVEL_UUID, self._panic_function)
-        await self._client.start_notify(self._UART_TX_UUID, self._make_vid_function)
+        #await self._client.start_notify(self._UART_TX_UUID, self._make_vid_function)
  
     async def dismiss_alert(self):
         '''
@@ -118,3 +118,11 @@ class BLE :
         '''   
         
         return len(self._nearby_devices) > 0
+    
+    async def accept_alert(self):
+        '''
+        Avisa al collar que la alerta ha sido recibida y puede empezar a mandar datos
+        '''
+        await self._client.write_gatt_char(self._ALERT_LEVEL_UUID, data=b"Accept Alert", response=False)
+        
+        
