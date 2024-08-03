@@ -30,7 +30,6 @@ class Alarm:
                 #No se presionó el botón dentro de los 15 segundos
                 Alarm.app.controls.clear()
                 home_screen.main(Alarm.app)
-                print("La grabación comenzó")
                 print("Notificar contactos")
                 await asyncio.sleep(25) #esperar 15 minutos
                 await Alarm.ble.dismiss_alert()

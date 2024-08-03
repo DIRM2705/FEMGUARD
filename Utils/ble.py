@@ -102,7 +102,7 @@ class BLE :
         o reciba datos del sensor de cámara
         '''
         await self._client.start_notify(self._ALERT_LEVEL_UUID, self._panic_function)
-        #await self._client.start_notify(self._UART_TX_UUID, self._make_vid_function)
+        await self._client.start_notify(self._UART_TX_UUID, self._make_vid_function)
  
     async def dismiss_alert(self):
         '''
