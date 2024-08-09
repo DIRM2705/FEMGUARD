@@ -37,6 +37,16 @@ def make_video(sender, data : bytearray):
     with open(route, "ab") as file:
         file.write(data)
         
+def get_video_files_list() -> list[str]:
+    '''
+    Obtiene todos los archivos de un video y guarda sus nombres en una lista
+    
+    retorna : lista con los nombres de los archivos
+    '''
+    route = f"{MAIN_DIRECTORY}{VIDEO_DIRECTORY}"
+    check_route(route)
+    return os.listdir(route)
+        
 def get_video_route() -> str:
     now = datetime.datetime.now()
     date = now.strftime("%d%m%y")
