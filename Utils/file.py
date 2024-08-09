@@ -1,8 +1,31 @@
 import datetime
+import pickle
 import os
 
 MAIN_DIRECTORY = "FEMGUARD/"
+CLIENT_FILE_NAME = "client.cfg"
 VIDEO_DIRECTORY = "VIDEO/"
+
+
+def save_ble_client(client):
+    '''
+    Función que guarda un archivo el cliente BLE para su carga posterior
+    '''
+    check_route(MAIN_DIRECTORY)
+    client_file = open(f"{MAIN_DIRECTORY}{CLIENT_FILE_NAME}", "wb")
+    pickle.dump(client, client_file)
+    client_file.close()
+
+def load_ble_client():
+    '''
+    Función que crea un cliente BLE desde el archivo
+    '''
+    check_route(MAIN_DIRECTORY)
+    client_file = open(f"{MAIN_DIRECTORY}{CLIENT_FILE_NAME}", "rb")
+    client = pickle.load(client_file)    
+    client_file.close()
+    return client
+
 
 def make_video(sender, data : bytearray):
     '''

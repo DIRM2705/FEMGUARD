@@ -1,6 +1,8 @@
-from bleak import BleakScanner, BleakClient, BLEDevice, AdvertisementData, BleakGATTCharacteristic
+from bleak import BleakScanner, BleakClient, BLEDevice, AdvertisementData
 from bleak.exc import BleakDeviceNotFoundError
+from Utils.file import save_ble_client, load_ble_client
 from Exceptions.btExc import *
+import os
 
 class BLE :
     '''
@@ -29,6 +31,21 @@ class BLE :
         self._nearby_devices = dict()
         self._panic_function = panic_function
         self._make_vid_function = vid_function
+        save_ble_client(self)
+        
+    def load_from_file(panic_function, vid_function):
+        '''
+        Carga un cliente BLE desde un archivo para una conexión rápida,
+        si no existiera el archivo o hubiera un problema crea un cliente vacio
+        '''
+        try:
+            ble = load_ble_client()
+        except Exception as e:
+            ble = BLE(panic_function, vid_function)
+        finally:
+            return ble
+        
+        
         
     async def get_nearby_devices(self) -> list[str]:
         '''
