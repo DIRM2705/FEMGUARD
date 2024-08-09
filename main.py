@@ -1,5 +1,5 @@
 import flet as ft
-from Frontend import logo_screen, directorio, info, home_screen
+from Frontend import logo_screen, directorio, info, home_screen, video
 import asyncio
 import locale
 
@@ -53,8 +53,7 @@ def info_onclick(e):
 
 def video_onclick(e):
     e.page.controls.clear()
-    #TODO: Abrir screen video
-    print("Video")
+    video.main(e.page)
     
 def config_for_pc(page : ft.Page):
     if page.platform.name == "WINDOWS":
