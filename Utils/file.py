@@ -4,8 +4,27 @@ import os
 
 MAIN_DIRECTORY = "FEMGUARD/"
 CLIENT_FILE_NAME = "client.cfg"
+USER_FILE_NAME = "user.cfg"
 VIDEO_DIRECTORY = "VIDEO/"
 
+def save_user_data(user):
+    '''
+    Guarda en un archivo los datos del usuario para su carga posterior
+    '''
+    check_route(MAIN_DIRECTORY)
+    user_file = open(f"{MAIN_DIRECTORY}{USER_FILE_NAME}", "wb")
+    pickle.dump(user, user_file)
+    user_file.close()
+    
+def load_user_data():
+    '''
+    Carga los datos del usuario desde el archivo
+    '''
+    check_route(MAIN_DIRECTORY)
+    user_file = open(f"{MAIN_DIRECTORY}{USER_FILE_NAME}", "rb")
+    user = pickle.load(user_file)
+    user_file.close()
+    return user
 
 def save_ble_client(client):
     '''
@@ -25,7 +44,6 @@ def load_ble_client():
     client = pickle.load(client_file)    
     client_file.close()
     return client
-
 
 def make_video(sender, data : bytearray):
     '''
