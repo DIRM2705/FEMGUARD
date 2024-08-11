@@ -29,18 +29,19 @@ def add_labels(page: ft.Page, user : UserData):
         update_user_field(user, "blood", blood_box.value)
         
     def on_height_change(e):
-        if not height_box.value.isdecimal():
+        try:
+            new_val = int(height_box.value)
+            if new_val < 0 or new_val > 300:
+                show_error_message(page, "Altura no válida")
+                height_box.value = user.height
+                page.update()
+                return
+            update_user_field(user, "height", new_val)
+        except ValueError:
             show_error_message(page, "Coloque su altura en centímetros")
             height_box.value = user.height
             page.update()
             return
-        new_val = int(height_box.value)
-        if new_val < 0 or new_val > 300:
-            show_error_message(page, "Altura no válida")
-            height_box.value = user.height
-            page.update()
-            return
-        update_user_field(user, "height", new_val)
         
     def on_weight_change(e):
         try:
@@ -58,30 +59,33 @@ def add_labels(page: ft.Page, user : UserData):
             return
         
     
-    name_box = ft.TextField(label="Nombre", value=user.name, on_blur=on_name_change)
-    phone_box = ft.TextField(label="Celular", value=user.phone_number, on_blur=on_phone_change)
+    name_box = ft.TextField(label="Nombre", value=user.name, on_blur=on_name_change, color="#33313D", label_style=ft.TextStyle(color="#D0D0D0"), border_color="#CC92AF")
+    phone_box = ft.TextField(label="Celular", value=user.phone_number, on_blur=on_phone_change, color="#33313D", label_style=ft.TextStyle(color="#D0D0D0"), border_color="#CC92AF")
     blood_box = ft.Dropdown(
             label="Tipo de sangre",
             options=[ft.dropdown.Option(x) for x in tipos_de_sangre],
             value=user.blood_type,
-            on_change=on_blood_change
+            on_change=on_blood_change,
+            color="#33313D",
+            label_style=ft.TextStyle(color="#D0D0D0"),
+            border_color="#CC92AF"
         )
     
-    height_box = ft.TextField(label="Estatura", value=user.height, width=page.width/1.25, on_blur=on_height_change)
+    height_box = ft.TextField(label="Estatura", value=user.height, width=page.width/1.25, on_blur=on_height_change, color="#33313D", label_style=ft.TextStyle(color="#D0D0D0"), border_color="#CC92AF")
     
     height_row = ft.Row(
         controls=[
             height_box,
-            ft.Text("cm")
+            ft.Text("cm", color="#33313D")
         ]
     )
     
-    weight_box = ft.TextField(label="Peso", value=user.weigth, width=page.width/1.25, on_blur=on_weight_change)
+    weight_box = ft.TextField(label="Peso", value=user.weigth, width=page.width/1.25, on_blur=on_weight_change, color="#33313D", label_style=ft.TextStyle(color="#D0D0D0"), border_color="#CC92AF")
     
     weight_row = ft.Row(
         controls=[
             weight_box,
-            ft.Text("kg")
+            ft.Text("kg", color="#33313D")
         ]
     )
     
@@ -113,7 +117,10 @@ def add_birthdate_sel(page : ft.Page, user : UserData):
             options=[ft.dropdown.Option(i) for i in range (1, 32)],
             width=control_width,
             value="" if user.birthdate is None else user.birthdate.day,
-            on_change=update_birthdate
+            on_change=update_birthdate,
+            color="#33313D",
+            label_style=ft.TextStyle(color="#D0D0D0"),
+            border_color="#CC92AF"
         )
     
     month_dropdown = ft.Dropdown(
@@ -121,7 +128,10 @@ def add_birthdate_sel(page : ft.Page, user : UserData):
             options=[ft.dropdown.Option(calendar.month_abbr[i]) for i in range(1, 13)],
             on_change=on_month_year_change,
             width=control_width,
-            value="" if user.birthdate is None else calendar.month_abbr[user.birthdate.month] 
+            value="" if user.birthdate is None else calendar.month_abbr[user.birthdate.month],
+            color="#33313D",
+            label_style=ft.TextStyle(color="#D0D0D0"),
+            border_color="#CC92AF"
         )
     
     year_dropdown = ft.Dropdown(
@@ -129,7 +139,10 @@ def add_birthdate_sel(page : ft.Page, user : UserData):
             options=[ft.dropdown.Option(i) for i in range(actual_year, actual_year - 80, -1)],
             on_change=on_month_year_change,
             width=control_width,
-            value="" if user.birthdate is None else user.birthdate.year
+            value="" if user.birthdate is None else user.birthdate.year,
+            color="#33313D",
+            label_style=ft.TextStyle(color="#D0D0D0"),
+            border_color="#CC92AF"
         )
     
     selector = ft.Row(
@@ -137,7 +150,7 @@ def add_birthdate_sel(page : ft.Page, user : UserData):
         alignment=ft.MainAxisAlignment.SPACE_BETWEEN
     )
     
-    page.add(ft.Text("Fecha de nacimiento"), selector)
+    page.add(ft.Text("Fecha de nacimiento", color="#33313D", size=12), selector)
     
 def add_contacts(page : ft.Page, user : UserData):
     def on_number_change(e):   
@@ -152,9 +165,9 @@ def add_contacts(page : ft.Page, user : UserData):
         user.emergency_contacts[index] = new_val
         save_user_data(user)
         
-    page.add(ft.Text("Ingresa tus 5 contactos de emergencia", size=12, weight=ft.FontWeight.W_900))
+    page.add(ft.Text("Ingresa tus 5 contactos de emergencia", size=12, color="#33313D"))
     for i in range(1,6):
-        page.add(ft.TextField(label=f"Contacto {i}", value=user.emergency_contacts[i - 1], on_blur=on_number_change))
+        page.add(ft.TextField(label=f"Contacto {i}", value=user.emergency_contacts[i - 1], on_blur=on_number_change, label_style=ft.TextStyle(color="#D0D0D0"), border_color="#CC92AF"))
 
 def main(page : ft.Page):
     user = try_get_user_data()

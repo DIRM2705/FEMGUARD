@@ -4,7 +4,7 @@ import asyncio
 import locale
 
 def setup_screen(page : ft.Page):
-    page.bgcolor = "#FFC5D9"
+    page.bgcolor = "#FFFFFF"
     page.adaptative= True
     page.vertical_alignment = ft.MainAxisAlignment.START
     page.horizontal_alignment = ft.CrossAxisAlignment.START
@@ -19,9 +19,7 @@ def add_appbar(page : ft.Page):
         shape=ft.RoundedRectangleBorder(radius=3.5))
     
 def add_bottom_appbar(page : ft.Page):
-    page.bottom_appbar = ft.BottomAppBar(
-        bgcolor="White",
-        content= ft.Row(
+    bttn_row = ft.Row(
             controls=[
             ft.IconButton(ft.icons.CALL,icon_color="#DC92B5", on_click=directorio_onclick),#boton contactos
             ft.IconButton(ft.icons.BLUETOOTH,icon_color="#DC92B5", on_click=conexiones_onclick), #Botón pantalla conexiones
@@ -30,7 +28,15 @@ def add_bottom_appbar(page : ft.Page):
             ft.IconButton(ft.icons.LINKED_CAMERA,icon_color="#DC92B5", on_click=video_onclick), #Botón pantalla videos
             ],
             alignment=ft.MainAxisAlignment.SPACE_EVENLY
-        )        
+        )
+    page.bottom_appbar = ft.BottomAppBar(
+        bgcolor="white",
+        content= ft.Column(
+            controls=[
+                ft.Divider(color="#E1BFD0"),
+                bttn_row
+                ]
+            )   
     )
     
 def directorio_onclick(e : ft.ControlEvent):
