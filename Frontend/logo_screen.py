@@ -19,6 +19,11 @@ async def setup_ble_devices():
         ble.is_connected = False
         ble.save()
         print(e)
+    except Exception:
+        ble.is_connected = False
+        ble.save()
+        print(e)
+    
 
 async def main(page: ft.Page):
     page.bgcolor = "White"
