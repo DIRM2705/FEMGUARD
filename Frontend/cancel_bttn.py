@@ -6,12 +6,11 @@ from Utils.ble import BLE
 ble : BLE = None
 cancel_event = None
 
-def set_ble(client : BLE):
+async def main(client : BLE, page : ft.Page):
+    global cancel_event
     global ble
     ble = client
-
-async def main(page : ft.Page):
-    global cancel_event
+    page.controls.clear()
     page.vertical_alignment = ft.MainAxisAlignment.CENTER
     page.horizontal_alignment = ft.CrossAxisAlignment.CENTER
     title = ft.Text(value="DETENER ALARMA", color="Pink", weight=ft.FontWeight.BOLD, size=25)
@@ -36,7 +35,8 @@ async def cancel_on_click(e):
     '''
         Función para cancelar la alarma, escribe en el canal de comunicación del collar el nivel de alerta como bajo
     '''
-    global cancel_event, ble
+    global cancel_event
+    global ble
     cancel_event.set()
     await ble.dismiss_alert()
     

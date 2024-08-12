@@ -1,6 +1,7 @@
 from Frontend import cancel_bttn, home_screen
 import flet as ft
 import asyncio
+import winsdk.windows.devices.geolocation as wdg
 
 class Alarm:
     def __init__(self, ble, cancel_screen : ft.Page) -> None:
@@ -10,7 +11,7 @@ class Alarm:
         Parámetros:     ble: El cliente bluetooth de la app
         '''
         Alarm.app = cancel_screen
-        cancel_bttn.set_ble(ble)
+        Alarm.ble = ble
         
     async def panic(sender, data : bytearray):
         '''
@@ -18,16 +19,33 @@ class Alarm:
         Espera 15 segundos antes de cerrar la pantalla del botón cancelar y 
         comenzar a realizar las acciones de seguridad
         '''
+        
         HIGH_ALERT_MSSG = "High Alert"
             
-        if data.decode() == HIGH_ALERT_MSSG:    
+        if data.decode() == HIGH_ALERT_MSSG:
+            await Alarm.ble.accept_alert()    
             try:
                 async with asyncio.timeout(15):
-                    await cancel_bttn.main(Alarm.app)
+                    await cancel_bttn.main(Alarm.ble, Alarm.app)
             except TimeoutError:
                 #No se presionó el botón dentro de los 15 segundos
                 Alarm.app.controls.clear()
+                position = await Alarm.get_location()
+                print(position) #enviar mensaje
                 home_screen.main(Alarm.app)
-                print("La grabación comenzó")
-                print("Notificar contactos")
+                await asyncio.sleep(25) #esperar 15 minutos
+                await Alarm.ble.dismiss_alert()
+                
+    async def get_location() -> tuple[float, float]:
+        '''
+        Función que obtiene el geolocalizador del dipsositivo y luego retorna las coordenadas
+        
+        Retorna:    Una tupla con las coordenadas de la ubicación del dispositivo
+        '''
+        locator = wdg.Geolocator()
+        try:
+            pos = await locator.get_geoposition_async()
+            return (pos.coordinate.latitude, pos.coordinate.longitude)
+        except PermissionError as e:
+            print(e)
     

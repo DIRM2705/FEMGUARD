@@ -1,15 +1,24 @@
 import flet as ft
 from Utils.ble import BLE
+from Utils.alarm import Alarm
 from Exceptions.btExc import ConnectionUnsuccessfullException
-from Utils import alarm, file
+from Utils import file
 
 async def setup_ble_devices():
-    ble = BLE(alarm.Alarm.panic, file.make_video) #Obtener de archivo
+    ble = BLE.load_from_file() #Obtener cliente de archivo 
+    
+    if ble is None:
+        ble = BLE(Alarm.panic, file.make_video)
+        ble.save()
+  
+    Alarm.ble = ble
     try:
-        await ble.connect_to_last_device()
+       await ble.connect_to_last_device()
+       await ble.subscribe_to_alerts()     
     except ConnectionUnsuccessfullException as e:
+        ble.is_connected = False
+        ble.save()
         print(e)
-        pass
 
 async def main(page: ft.Page):
     page.bgcolor = "White"
@@ -24,5 +33,7 @@ async def main(page: ft.Page):
 
     page.add(img)
     page.update()
+    
+    Alarm.app = page
     
     await setup_ble_devices()

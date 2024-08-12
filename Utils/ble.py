@@ -1,5 +1,6 @@
-from bleak import BleakScanner, BleakClient, BLEDevice, AdvertisementData, BleakGATTCharacteristic
+from bleak import BleakScanner, BleakClient, BLEDevice, AdvertisementData
 from bleak.exc import BleakDeviceNotFoundError
+from Utils.file import save_ble_client, load_ble_client
 from Exceptions.btExc import *
 
 class BLE :
@@ -29,6 +30,35 @@ class BLE :
         self._nearby_devices = dict()
         self._panic_function = panic_function
         self._make_vid_function = vid_function
+        self.is_connected = False
+    
+    def on_disconnect(callback):
+        data = load_ble_client()
+        data.is_connected = False
+        save_ble_client(data)
+        
+    def load_from_file():
+        '''
+        Carga un cliente BLE desde un archivo para una conexión rápida,
+        si no existiera el archivo o hubiera un problema crea un cliente vacio
+        '''
+        
+        try:
+            bleData : BLEData = load_ble_client()
+            ble = BLE(bleData.panic, bleData.vid)
+            ble._client = BleakClient(bleData.client_name, disconnected_callback=BLE.on_disconnect) 
+            ble.is_connected = bleData.is_connected 
+            return ble     
+        except Exception as e:
+            print(e)
+            return None       
+            
+    
+    def save(self):
+        client = self._client.address if self._client is not None else ""
+        data = BLEData(client, self._panic_function, self._make_vid_function, self.is_connected)
+        save_ble_client(data)
+        
         
     async def get_nearby_devices(self) -> list[str]:
         '''
@@ -38,7 +68,7 @@ class BLE :
         Retorna: Una lista con los nombres de los dispositivos del diccionario
         '''
         scanner = BleakScanner()
-        
+        self._nearby_devices.clear()
         #buscar los dispositivos cercanos, guardando datos de advertising
         discoveries = await scanner.discover(timeout=10, return_adv=True)
         self._create_filtered_devices_dic_from(discoveries.values())
@@ -57,7 +87,7 @@ class BLE :
         for device, adv_data in discoveries:
             #Verificar que contenga UUID de alerta inmediata
             if self._data_contains_inmediate_alert_UUID(adv_data):
-                self._nearby_devices[device.name] = device
+                self._nearby_devices[device.name] = device.address
         
     def _data_contains_inmediate_alert_UUID(self, adv_data : AdvertisementData) -> bool: 
         '''
@@ -77,8 +107,9 @@ class BLE :
         '''
         try:
             device = self._nearby_devices[device_name]
-            self._client = BleakClient(device)
+            self._client = BleakClient(device, disconnected_callback=BLE.on_disconnect)
             await self._client.connect()
+            self.is_connected = True
         except KeyError:
             raise ConnectionUnsuccessfullException("Nombre del dispositivo incorrecto")
         except BleakDeviceNotFoundError:
@@ -89,8 +120,13 @@ class BLE :
         Conecta el cliente bluetooth al último dispositivo seleccionado
         Se espera utilizar esta función al iniciar la app para reconectar el collar automáticamente
         '''
+        
+        if self._client is None or self._client.address == "":
+            raise ConnectionUnsuccessfullException("El cliente no tiene conexiones previas")
         try:
             await self._client.connect()
+            self.is_connected = True
+            self.save()
         except AttributeError:
             raise ConnectionUnsuccessfullException("El cliente no tiene conexiones previas")
         except BleakDeviceNotFoundError:
@@ -118,3 +154,17 @@ class BLE :
         '''   
         
         return len(self._nearby_devices) > 0
+    
+    async def accept_alert(self):
+        '''
+        Avisa al collar que la alerta ha sido recibida y puede empezar a mandar datos
+        '''
+        await self._client.write_gatt_char(self._ALERT_LEVEL_UUID, data=b"Accept Alert", response=False)
+        
+class BLEData:
+    def __init__(self, client : str, panic_func, vid_func, connected : bool) -> None:
+        self.client_name = client 
+        self.panic = panic_func
+        self.vid = vid_func  
+        self.is_connected = connected
+            
