@@ -24,9 +24,11 @@ def send_SOS_message(name : str, emergency_numbers : list[str], location : tuple
     '''
     twilio_client = Client(_TWILIO_SSID, _AUTH_TOKEN)
     for number in emergency_numbers:
+        if number == "":
+            return
         twilio_client.messages.create(
             #Poner los datos del usuario en el mensaje a enviar
             body=_TEMPLATE_MESSAGE.format(name, location[0], location[1]),
             from_=_SENDER,
-            to=number
+            to=f"+52{number}"
         )

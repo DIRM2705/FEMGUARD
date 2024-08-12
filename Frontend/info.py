@@ -167,7 +167,7 @@ def add_contacts(page : ft.Page, user : UserData):
         
     page.add(ft.Text("Ingresa tus 5 contactos de emergencia", size=12, color="#33313D"))
     for i in range(1,6):
-        page.add(ft.TextField(label=f"Contacto {i}", value=user.emergency_contacts[i - 1], on_blur=on_number_change, label_style=ft.TextStyle(color="#D0D0D0"), border_color="#CC92AF"))
+        page.add(ft.TextField(label=f"Contacto {i}", value=user.emergency_contacts[i - 1], on_blur=on_number_change, label_style=ft.TextStyle(color="#D0D0D0"), border_color="#CC92AF", color="#33313D"))
 
 def main(page : ft.Page):
     user = try_get_user_data()
