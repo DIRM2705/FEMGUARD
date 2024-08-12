@@ -1,7 +1,8 @@
 import flet as ft
-from Frontend import logo_screen, directorio, info, home_screen, video
+from Frontend import logo_screen, directorio, info, home_screen, video, bluetooth
 import asyncio
 import locale
+from Utils.ble import BLE
 
 def setup_screen(page : ft.Page):
     page.bgcolor = "#FFFFFF"
@@ -44,10 +45,9 @@ def directorio_onclick(e : ft.ControlEvent):
     directorio.main(e.page)
     
 
-def conexiones_onclick(e):
+async def conexiones_onclick(e):
     e.page.controls.clear()
-    #TODO: Abrir screen conexiones
-    print("Conexiones")
+    await bluetooth.main(e.page)
 
 def home_onclick(e):
     e.page.controls.clear()
