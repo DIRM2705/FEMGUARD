@@ -30,6 +30,12 @@ class BLE :
         self._nearby_devices = dict()
         self._panic_function = panic_function
         self._make_vid_function = vid_function
+        self.is_connected = False
+    
+    def on_disconnect(callback):
+        data = load_ble_client()
+        data.is_connected = False
+        save_ble_client(data)
         
     def load_from_file():
         '''
@@ -40,15 +46,17 @@ class BLE :
         try:
             bleData : BLEData = load_ble_client()
             ble = BLE(bleData.panic, bleData.vid)
-            ble._client = BleakClient(bleData.client_name)  
+            ble._client = BleakClient(bleData.client_name, disconnected_callback=BLE.on_disconnect) 
+            ble.is_connected = bleData.is_connected 
             return ble     
-        except Exception:
+        except Exception as e:
+            print(e)
             return None       
             
     
     def save(self):
         client = self._client.address if self._client is not None else ""
-        data = BLEData(client, self._panic_function, self._make_vid_function)
+        data = BLEData(client, self._panic_function, self._make_vid_function, self.is_connected)
         save_ble_client(data)
         
         
@@ -99,8 +107,9 @@ class BLE :
         '''
         try:
             device = self._nearby_devices[device_name]
-            self._client = BleakClient(device)
+            self._client = BleakClient(device, disconnected_callback=BLE.on_disconnect)
             await self._client.connect()
+            self.is_connected = True
         except KeyError:
             raise ConnectionUnsuccessfullException("Nombre del dispositivo incorrecto")
         except BleakDeviceNotFoundError:
@@ -116,6 +125,8 @@ class BLE :
             raise ConnectionUnsuccessfullException("El cliente no tiene conexiones previas")
         try:
             await self._client.connect()
+            self.is_connected = True
+            self.save()
         except AttributeError:
             raise ConnectionUnsuccessfullException("El cliente no tiene conexiones previas")
         except BleakDeviceNotFoundError:
@@ -151,7 +162,9 @@ class BLE :
         await self._client.write_gatt_char(self._ALERT_LEVEL_UUID, data=b"Accept Alert", response=False)
         
 class BLEData:
-    def __init__(self, client : str, panic_func, vid_func) -> None:
+    def __init__(self, client : str, panic_func, vid_func, connected : bool) -> None:
         self.client_name = client 
         self.panic = panic_func
-        self.vid = vid_func      
+        self.vid = vid_func  
+        self.is_connected = connected
+            

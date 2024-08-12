@@ -16,6 +16,8 @@ async def setup_ble_devices():
        await ble.connect_to_last_device()
        await ble.subscribe_to_alerts()     
     except ConnectionUnsuccessfullException as e:
+        ble.is_connected = False
+        ble.save()
         print(e)
 
 async def main(page: ft.Page):
