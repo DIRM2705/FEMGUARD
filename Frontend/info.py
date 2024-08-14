@@ -13,7 +13,7 @@ def add_labels(page: ft.Page, user : UserData):
         if not no_space_val.isalpha() or not no_space_val:
             show_error_message(page, "Coloca tu nombre como aparece en tus documentos oficiales")
             name_box.value = user.name
-            name_box.update()
+            page.update()
         update_user_field(user, "name", name_box.value)
         
     def on_phone_change(e):
@@ -23,7 +23,7 @@ def add_labels(page: ft.Page, user : UserData):
             phone_box.value = user.phone_number
             page.update()
             return
-        update_user_field(user, "phone", phone_box.value)
+        update_user_field(user, "phone", new_val)
         
     def on_blood_change(e):
         update_user_field(user, "blood", blood_box.value)
@@ -155,26 +155,48 @@ def add_birthdate_sel(page : ft.Page, user : UserData):
 def add_contacts(page : ft.Page, user : UserData):
     def on_number_change(e):   
         new_val = e.control.value.replace(" ", "")
+        index = int(e.control.label.replace("Contacto ", "")) - 1
         if len(new_val) != 10 or not new_val.isdecimal() or new_val in user.emergency_contacts:
             show_error_message(page, "Número de teléfono no válido")
-            e.control.value = ""
+            e.control.value = user.emergency_contacts[index]
             page.update()
             return
         
-        index = int(e.control.label.replace("Contacto ", "")) - 1
+        
         user.emergency_contacts[index] = new_val
         save_user_data(user)
         
-    page.add(ft.Text("Ingresa tus 5 contactos de emergencia", size=12, color="#33313D"))
+    page.add(ft.Text("Tus contactos de emergencia", size=12, color="#33313D"))
     for i in range(1,6):
         page.add(ft.TextField(label=f"Contacto {i}", value=user.emergency_contacts[i - 1], on_blur=on_number_change, label_style=ft.TextStyle(color="#D0D0D0"), border_color="#CC92AF", color="#33313D"))
 
+def add_allergies(page : ft.page, user : UserData):
+    def on_allergies_change(e):
+        if not allergy_box.value.isalpha():
+            show_error_message(page, "Coloca solo palabras")
+            allergy_box.value = user.allergies
+            
+        update_user_field(user, "allergies", allergy_box.value)
+        
+    page.add(ft.Text("Tus alergias", size=12, color="#33313D"))
+    allergy_box = ft.TextField(
+        label="Alergias",
+        value=user.allergies,
+        on_blur=on_allergies_change,
+        label_style=ft.TextStyle(color="#D0D0D0"),
+        border_color="#CC92AF",
+        color="#33313D")
+    
+    page.add(allergy_box)
+       
 def main(page : ft.Page):
+    
     user = try_get_user_data()
     page.vertical_alignment = ft.MainAxisAlignment.CENTER
     page.horizontal_alignment = ft.CrossAxisAlignment.CENTER
     add_labels(page, user)
     add_birthdate_sel(page, user)
+    add_allergies(page, user)
     add_contacts(page, user)
     page.update()
     
@@ -189,7 +211,7 @@ def try_get_user_data() -> UserData:
             "",
             0,
             0,
-            [],
+            "",
             ["" for _ in range(5)]
         )
         save_user_data(user)
