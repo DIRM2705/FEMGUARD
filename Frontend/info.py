@@ -181,6 +181,7 @@ def add_allergies(page : ft.page, user : UserData):
     page.add(ft.Text("Tus alergias", size=12, color="#33313D"))
     allergy_box = ft.TextField(
         label="Alergias",
+        multiline=True,
         value=user.allergies,
         on_blur=on_allergies_change,
         label_style=ft.TextStyle(color="#D0D0D0"),
