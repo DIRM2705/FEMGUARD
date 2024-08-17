@@ -11,16 +11,17 @@ def add_labels(page: ft.Page, user : UserData):
     def on_name_change(e):
         no_space_val = name_box.value.replace(" ", "")
         if not no_space_val.isalpha() or not no_space_val:
-            show_error_message(page, "Coloca tu nombre como aparece en tus documentos oficiales")
             name_box.value = user.name
+            name_box.error_text = "Sólo coloca letras"
             page.update()
+            return
         update_user_field(user, "name", name_box.value)
         
     def on_phone_change(e):
         new_val = phone_box.value.replace(" ", "")
         if len(new_val) != 10 or not new_val.isdecimal():
-            show_error_message(page, "Número de teléfono no válido")
             phone_box.value = user.phone_number
+            phone_box.error_text = "Número de teléfono no válido"
             page.update()
             return
         update_user_field(user, "phone", new_val)
@@ -32,14 +33,14 @@ def add_labels(page: ft.Page, user : UserData):
         try:
             new_val = int(height_box.value)
             if new_val < 0 or new_val > 300:
-                show_error_message(page, "Altura no válida")
                 height_box.value = user.height
+                height_box.error_text = "Altura no válida"
                 page.update()
                 return
             update_user_field(user, "height", new_val)
         except ValueError:
-            show_error_message(page, "Coloque su altura en centímetros")
             height_box.value = user.height
+            height_box.error_text = "Coloque su altura en centímetros"
             page.update()
             return
         
@@ -47,17 +48,16 @@ def add_labels(page: ft.Page, user : UserData):
         try:
             new_val = float(weight_box.value)
             if new_val < 0:
-                show_error_message(page, "Peso no válido")
                 weight_box.value = user.weigth
+                weight_box.error_text = "Peso no válido"
                 page.update()
                 return
             update_user_field(user, "weight", new_val)
         except ValueError:
-            show_error_message(page, "Coloque su peso en kilogramos")
             weight_box.value = user.weigth
+            weight_box.error_text = "Peso no válido"
             page.update()
             return
-        
     
     name_box = ft.TextField(label="Nombre", value=user.name, on_blur=on_name_change, color="#33313D", label_style=ft.TextStyle(color="#D0D0D0"), border_color="#CC92AF")
     phone_box = ft.TextField(label="Celular", value=user.phone_number, on_blur=on_phone_change, color="#33313D", label_style=ft.TextStyle(color="#D0D0D0"), border_color="#CC92AF")
@@ -153,28 +153,30 @@ def add_birthdate_sel(page : ft.Page, user : UserData):
     page.add(ft.Text("Fecha de nacimiento", color="#33313D", size=12), selector)
     
 def add_contacts(page : ft.Page, user : UserData):
-    def on_number_change(e):   
-        new_val = e.control.value.replace(" ", "")
+    def on_number_change(e): 
         index = int(e.control.label.replace("Contacto ", "")) - 1
+        new_val = contacts[index].value.replace(" ", "")
         if len(new_val) != 10 or not new_val.isdecimal() or new_val in user.emergency_contacts:
-            show_error_message(page, "Número de teléfono no válido")
-            e.control.value = user.emergency_contacts[index]
+            contacts[index].value = user.emergency_contacts[index]
+            contacts[index].error_text = "Número de teléfono no válido"
             page.update()
             return
         
-        
         user.emergency_contacts[index] = new_val
         save_user_data(user)
-        
+          
     page.add(ft.Text("Tus contactos de emergencia", size=12, color="#33313D"))
+    contacts = []
     for i in range(1,6):
-        page.add(ft.TextField(label=f"Contacto {i}", value=user.emergency_contacts[i - 1], on_blur=on_number_change, label_style=ft.TextStyle(color="#D0D0D0"), border_color="#CC92AF", color="#33313D"))
-
+        contacts.append(
+            ft.TextField(label=f"Contacto {i}", value=user.emergency_contacts[i - 1], on_blur=on_number_change, label_style=ft.TextStyle(color="#D0D0D0"), border_color="#CC92AF", color="#33313D")
+        )
+        page.add(contacts[i - 1])
 def add_allergies(page : ft.page, user : UserData):
     def on_allergies_change(e):
-        if not allergy_box.value.isalpha():
-            show_error_message(page, "Coloca solo palabras")
+        if len(allergy_box.value) > 0 and not allergy_box.value.isalpha():
             allergy_box.value = user.allergies
+            allergy_box.error_text = "Coloca solo palabras"
             
         update_user_field(user, "allergies", allergy_box.value)
         
