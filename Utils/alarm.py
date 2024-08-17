@@ -2,6 +2,7 @@ from Frontend import cancel_bttn, home_screen
 import flet as ft
 import asyncio
 import winsdk.windows.devices.geolocation as wdg
+from Utils import message, file
 
 class Alarm:
     def __init__(self, ble, cancel_screen : ft.Page) -> None:
@@ -23,6 +24,7 @@ class Alarm:
         HIGH_ALERT_MSSG = "High Alert"
             
         if data.decode() == HIGH_ALERT_MSSG:
+            user = file.load_user_data()
             await Alarm.ble.accept_alert()    
             try:
                 async with asyncio.timeout(15):
@@ -31,7 +33,8 @@ class Alarm:
                 #No se presionó el botón dentro de los 15 segundos
                 Alarm.app.controls.clear()
                 position = await Alarm.get_location()
-                print(position) #enviar mensaje
+                message.send_SOS_message(user.name, user.emergency_contacts, position)
+                #print(position) #enviar mensaje
                 home_screen.main(Alarm.app)
                 await asyncio.sleep(25) #esperar 15 minutos
                 await Alarm.ble.dismiss_alert()

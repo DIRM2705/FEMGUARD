@@ -1,7 +1,7 @@
 import datetime
 
 class UserData:
-    def __init__(self, name : str, birthdate : datetime.date, phone_number : str, blood_type : str, height : int, weight : float, allergies : list[str], emergency_contacts : list[str]):
+    def __init__(self, name : str, birthdate : datetime.date, phone_number : str, blood_type : str, height : int, weight : float, allergies : str, emergency_contacts : list[str]):
         self.name = name
         self.birthdate = birthdate
         self.phone_number = phone_number
