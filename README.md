@@ -1,101 +1,30 @@
-<h1> FEMGUARD APP </h1>
+<h1> FEMGUARD </h1>
 
-<h2> Preparación de entorno de desarrollo </h2>
+<img src="https://github.com/DIRM2705/FEMGUARD-APP/blob/main/images/Logo%20Transparent.png"></img>
 
-Comienza creando una carpeta dónde guardarás los archivos de tu aplicación. Si tienes la consola de git instalada, puedes dar clic derecho sobre la carpeta que acabas de crear y buscar la opción **git bash here** eso abrirá un nueva consola de git.
+<h2> Abstract </h2>
 
-Ejecuta lo siguiente en la consola:
+Violence against women remains a focus of concern within our community. The alarming increase of women affected by psychological, phisical, sexual, economical or patrimonial violence has spurred victims to take actions towards the assurance of their safety.
+FEMGUARD is a security device that incorpores a hidden camera, a heart rate sensor and Near-Field Communication(NFC) aiming to safeguards women's integrity, reducing violent crimes as well as, promoting an equitative and effective justice sistem.
 
-```
-git init
-git clone https://github.com/DIRM2705/FEMGUARD-APP.git
-```
-Eso debería copiar todos los archivos del repositorio a la carpeta que acabas de crear.
+<h2> Developement Environment configuration </h2>
 
-Es necesaria la versión 3.12.4 de Python para seguir adelante, puedes conseguirla [aquí](https://www.python.org/downloads/)
+Firstly, clone the repository to your PC.
 
-Una vez que ya esté instalada la versión de Python correspondiente, deberás crear un entorno virtual. Para ello, ejecuta el siguiente comando en tu CMD:
+You may need Python 3.12.4 to work in this project. If you have already satisfied this requirement, you now may create a virtual environment using:
 
 ```
 py -m venv venv
 ```
-
-Eso creará una carpeta llamada venv en tu locación actual que tendrá los archivos que conforman tu entorno virutal. Para activarlo copia el siguiente comando:
+Then, activate the environment:
 
 ```
 venv/Scripts/activate
 ```
-Si el comando anterior no generó ningún error, el entorno virtual se ha activado con éxito.
-
-Finalmente, deberás instalar los paquetes y dependencias, para ello necesitas descargar el archivo [requirements.txt]() del repositorio, además de ejecutar lo siguiente:
+To install the remaining requirements, run the following command:
 
 ```
 pip install -r requirements.txt
 ```
 
-<h2> Bluetooth </h2>
-<h3> Cliente Bluetooth Low-Energy </h3>
-
-> class BLE()
-
-Cliente bluetooth low energy de la aplicación.
-- Buscará dispositivos cercanos,
-- Conectará con dispositivos BLE que cumplan las características:
-    - Tienen la UUID de alerta inmediata
-- Se suscribirá a las notificaciones enviadas por el dispositivo de seguridad
-
-> async BLE.get_nearby_devices() → list[str]
-
-Busca todos los dispositivos BLE cercanos,selecciona únicamente los que cumplan con las características preestablecidas y crea una lista con sus nombres
-
-**Retorna:** Una lista que contiene los nombres de los dispositivos cercanos
-        
-> async BLE.connect_to_device(device : str)
-
-Conecta la aplicación al dispositivo BLE `device`.
-
-Arroja `ConnectionUnsuccessfullException` si no ha encontrado el dispositivo o el nombre del dispositivo ya no aparece en la lista de dipositivos disponibles.
-
-**Parámetros:**
-**device** -  El nombre del dispositivo BLE al que se desea conectar.
-
-> async BLE.connect_to_last_device()
-
-Conecta la aplicación al último dispositivo BLE que se conectó.
-
-Arroja `ConnectionUnsuccessfullException` si no encuentra el dispositivo o el cliente no ha estado conectado anteriormente.
-    
-> async BLE.subscribe_to_alerts()
-
-Pone la aplicación a esperar en segundo plano que el dispositivo vinculado produzca alertas inmediatas o comience la transmisión de video.
-
-> async BLE.dismiss_alert()
-
-Cambia el nivel de alerta a `No Alert` en la característica, `Alert Level` del dispositivo.
-
-> async BLE.has_devices() → bool
-
-Revisa si la aplicación ha encontrado algún dispositivo cercano
-
-**Retorna:** Verdadero si hay se ha encontrado al menos un dispositivo
-
-<h3> Excepciones </h3>
-
-> exception ConnectionUnsuccessfullException
-
-Excepción arrojada cuando ha habido algún error en la conexión bluetooth.
-
-<hr>
-
-<h2> Mensajes </h2>
-
-> send_SOS_message(name : str, emergency_numbers : list[str], location : tuple[float, float])
-
-Crea un cliente de Twilio y se conecta al servidor.
-Envía el mensaje de asistencia a todos los contactos de emergencia
-    
-**Parámetros:** 
-
-**name** - El nombre del usuario
-**emergency_numbers** - Los números de los contactos seleccionados por el usuario
-**location** - La latitutud y longitud de la posición (obtenidas del geolocalizador de flet)
+<h2> Screens <h2>
