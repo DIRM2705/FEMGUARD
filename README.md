@@ -1,6 +1,4 @@
-<h1> FEMGUARD </h1>
-
-<img src="https://github.com/DIRM2705/FEMGUARD-APP/blob/main/images/Logo%20Transparent.png"></img>
+<img src="https://github.com/DIRM2705/FEMGUARD-APP/blob/main/images/Logo%20Transparent.png" text-align="center"></img>
 
 <h2> Abstract </h2>
 
