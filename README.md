@@ -4,8 +4,7 @@
 
 <h2> Abstract </h2>
 
-Violence against women remains a focus of concern within our community. The alarming increase of women affected by psychological, phisical, sexual, economical or patrimonial violence has spurred victims to take actions towards the assurance of their safety.
-FEMGUARD is a security device that incorpores a hidden camera, a heart rate sensor and Near-Field Communication(NFC) aiming to safeguards women's integrity, reducing violent crimes as well as, promoting an equitative and effective justice sistem.
+Violence against women remains a focus of concern in our community. The alarming increase of women affected by psychological, phisical, sexual, economical or patrimonial violence has spurred victims to take actions towards the assurance of their safety. FEMGUARD created a solution in the form of a security device that incorpores a hidden camera, a heart rate sensor and Near-Field Communication (NFC) aiming to safeguards women's integrity, reducing violent crimes as well as, promoting an equitative and effective justice system.
 
 <h2> Developement Environment configuration </h2>
 
@@ -28,6 +27,10 @@ pip install -r requirements.txt
 ```
 
 <h2> Design </h2>
+The following image of the first prototype shows the disposition of electronic components inside the device.
+<p align="center">
+    <image src="https://drive.google.com/file/d/1o6H9GX4xM5cEdE1U67hxeiywUXH9_87Y/view?usp=sharing"/>
+</p>
 
 <h2> Algorithm </h2>
 
@@ -48,3 +51,6 @@ User's basic medical information is shown and editable in this screen. The data 
 
 <h3> Video screen </h3>
 Here users may find the videos filmed by the hidden camera.
+
+<h3> Cancel button screen </h3>
+When the device triggers an emergency, this screen will pop out. Users will have 15 seconds to press the button to cancel the event, delete the video and avoid alarming their emergency contacts.
