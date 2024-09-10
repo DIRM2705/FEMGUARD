@@ -29,12 +29,12 @@ pip install -r requirements.txt
 <h2> Design </h2>
 The following image of the first prototype shows the disposition of electronic components inside the device.
 <p align="center">
-    <img src="https://imgur.com/hiHfNrf"/>
+    <img src="https://imgur.com/hiHfNrf.jpeg"/>
 </p>
 
 <h2> Algorithm </h2>
 <p align="center">
-    <img src="https://imgur.com/Almqsjn"/>
+    <img src="https://imgur.com/Almqsjn.jpeg"/>
 </p>
 
 <h2>App Screens </h2>
