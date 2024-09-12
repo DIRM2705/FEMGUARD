@@ -4,7 +4,7 @@
 
 <h2> Abstract </h2>
 
-Violence against women remains a focus of concern in our community. The alarming increase of women affected by psychological, phisical, sexual, economical or patrimonial violence has spurred victims to take actions towards the assurance of their safety. FEMGUARD created a solution in the form of a security device that incorpores a hidden camera, a heart rate sensor and Near-Field Communication (NFC) aiming to safeguards women's integrity, reducing violent crimes as well as, promoting an equitative and effective justice system.
+Violence against women remains a focus of concern in our community. The alarming increase of women affected by psychological, phisical, sexual, economical or patrimonial violence has spurred victims to take actions towards the assurance of their safety. FEMGUARD created a solution in the form of a security device that incorpores a hidden camera, a heart rate sensor and Near-Field Communication (NFC). Our main aim is to safeguard women's integrity, reducing violent crimes as well as, promoting an equitative and effective justice system.
 
 <h2> Developement Environment configuration </h2>
 
