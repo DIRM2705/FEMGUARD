@@ -59,7 +59,11 @@ Here users may find the videos filmed by the hidden camera.
 When the device triggers an emergency, this screen will pop out. Users will have 15 seconds to press the button to cancel the event, delete the video and avoid alarming their emergency contacts.
 
 <h2> Credits </h2>
-García Tania - App frontend and device design [![GitHub](http://i.imgur.com/0o48UoR.png "GitHub")](https://github.com/TaniaGarNi)
-Gómez Camila - App backend [![GitHub](http://i.imgur.com/0o48UoR.png "GitHub")](https://github.com/camilachida06)
-Huerta Johana - App frontend [![GitHub](http://i.imgur.com/0o48UoR.png "GitHub")](https://github.com/Jouhg)
-Rosas Daniel - App backend and bluetooth communications [![GitHub](http://i.imgur.com/0o48UoR.png "GitHub")](https://github.com/DIRM2705)
+
+García Tania - App frontend and device design [![GitHub](http://i.imgur.com/9I6NRUm.png "GitHub")](https://github.com/TaniaGarNi)
+
+Gómez Camila - App backend [![GitHub](http://i.imgur.com/9I6NRUm.png "GitHub")](https://github.com/camilachida06)
+
+Huerta Johana - App frontend [![GitHub](http://i.imgur.com/9I6NRUm.png "GitHub")](https://github.com/Jouhg)
+
+Rosas Daniel - App backend and bluetooth communications [![GitHub](http://i.imgur.com/9I6NRUm.png "GitHub")](https://github.com/DIRM2705)
