@@ -60,10 +60,10 @@ When the device triggers an emergency, this screen will pop out. Users will have
 
 <h2> Credits </h2>
 
-García Tania - App frontend and device design [![GitHub](http://i.imgur.com/9I6NRUm.png "GitHub")](https://github.com/TaniaGarNi)
+[García Tania](https://github.com/TaniaGarNi) - App frontend and FEMGUARD device design
 
-Gómez Camila - App backend [![GitHub](http://i.imgur.com/9I6NRUm.png "GitHub")](https://github.com/camilachida06)
+[Gómez Camila](https://github.com/camilachida06) - App backend
 
-Huerta Johana - App frontend [![GitHub](http://i.imgur.com/9I6NRUm.png "GitHub")](https://github.com/Jouhg)
+[Huerta Johana](https://github.com/Jouhg) - App frontend
 
-Rosas Daniel - App backend and bluetooth communications [![GitHub](http://i.imgur.com/9I6NRUm.png "GitHub")](https://github.com/DIRM2705)
+[Rosas Daniel](https://github.com/DIRM2705) - App backend and bluetooth communications
